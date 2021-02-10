@@ -2,15 +2,15 @@
 
 gitname=darkreader
 pkgname=chromium-${gitname}-git
-pkgver=2110.518f18a
+pkgver=3254.f6d85c74
 pkgrel=1
 pkgdesc="Chromium extension to inverts brightness of web pages"
 arch=('any')
 url="https://github.com/${gitname}/${gitname}"
 license=('MIT')
-makedepends=(git npm unzip ts-node)
+makedepends=(git nodejs-lts-fermium npm unzip ts-node)
 checkdepends=(npm)
-source=("git+${url}.git")
+source=("git+${url}.git#tag=v4.9.28")
 sha512sums=('SKIP')
 
 pkgver() {
@@ -28,9 +28,9 @@ check() {
 }
 build() {
     cd "${srcdir}/${gitname}"
-    node tasks/build.js --release
+    npm run build
 }
 package() {
-    mkdir -p "${pkgdir}/usr/share/${pkgname}"
-    unzip "${srcdir}/${gitname}/build.zip" -d "${pkgdir}/usr/share/${pkgname}/"
+    mkdir -p "${pkgdir}/usr/share/chromium/${gitname}"
+    unzip "${srcdir}/${gitname}/build.zip" -d "${pkgdir}/usr/share/chromium/${gitname}/"
 }
